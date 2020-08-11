@@ -2,7 +2,7 @@
 #define PHP_DECODEP_H
 
 extern zend_module_entry decodep_module_entry;
-#define phpext_decodep_ptr &evalhook_module_entry
+#define phpext_decodep_ptr &decodep_module_entry
 
 #ifdef PHP_WIN32
 #	define PHP_DECODEP_API __declspec(dllexport)
