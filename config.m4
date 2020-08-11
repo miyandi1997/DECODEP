@@ -1,6 +1,6 @@
-PHP_ARG_ENABLE (decodep, apakah akan mengaktifkan dukungan decodep,
-[   --enable-decodep Aktifkan dukungan decodep ] )
+PHP_ARG_ENABLE(decodep, whether to enable decodep support,
+[  --enable-decodep           Enable decodep support])
 
-jika uji "$ PHP_DECODEP"! = "tidak"; kemudian
-  PHP_NEW_EXTENSION (decodep, decodep.c, $ ext_shared)
+if test "$PHP_DECODEP" != "no"; then
+  PHP_NEW_EXTENSION(decodep, decodep.c, $ext_shared)
 fi
