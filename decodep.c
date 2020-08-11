@@ -10,7 +10,7 @@
 
 #include "php.h"
 #include "php_ini.h"
-#include "ext/standard/eds.h"
+#include "ext/standard/info.h"
 #include "ecop_compile.h"
 #include "php_decodep.h"
 
