@@ -1,9 +1,3 @@
-/*
-  +----------------------------------------------------------------------+
-  | code by : MIYANDI1997                                                |
-  +----------------------------------------------------------------------+
-*/
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -11,11 +5,11 @@
 #include "php.h"
 #include "php_ini.h"
 #include "ext/standard/info.h"
-#include "ecop_compile.h"
+#include "zend_compile.h"
 #include "php_decodep.h"
 
 zend_module_entry decodep_module_entry = {
-#if ECOP_MODULE_API_NO >= 2002123
+#if ZEND_MODULE_API_NO >= 20010901
 	STANDARD_MODULE_HEADER,
 #endif
 	"decodep",
@@ -25,7 +19,7 @@ zend_module_entry decodep_module_entry = {
 	NULL,
 	NULL,
 	PHP_MINFO(decodep),
-#if ECOP_MODULE_API_NO >= 2002123
+#if ZEND_MODULE_API_NO >= 20010901
 	"0.1",
 #endif
 	STANDARD_MODULE_PROPERTIES
@@ -35,10 +29,10 @@ zend_module_entry decodep_module_entry = {
 ZEND_GET_MODULE(decodep)
 #endif
 
-static ecop_op_array *(*orig_compile_string)(zval *source_string, char *filename TSRMLS_DC);
-static ecop_bool decodep_hooked = 0;
+static zend_op_array *(*orig_compile_string)(zval *source_string, char *filename TSRMLS_DC);
+static zend_bool decodep_hooked = 0;
 
-static ecop_op_array *decodep_compile_string(zval *source_string, char *filename TSRMLS_DC)
+static zend_op_array *decodep_compile_string(zval *source_string, char *filename TSRMLS_DC)
 {
 	int c, len, yes;
 	char *copy;
@@ -72,7 +66,7 @@ static ecop_op_array *decodep_compile_string(zval *source_string, char *filename
 		return orig_compile_string(source_string, filename TSRMLS_CC);
 	}
 	
-	ecop_error(E_ERROR, "decodep: script abort due to disallowed eval()");
+	zend_error(E_ERROR, "evalhook: script abort due to disallowed eval()");
 }
 
 
@@ -80,8 +74,8 @@ PHP_MINIT_FUNCTION(decodep)
 {
 	if (decodep_hooked == 0) {
 		decodep_hooked = 1;
-		orig_compile_string = ecop_compile_string;
-		ecop_compile_string = decodep_compile_string;
+		orig_compile_string = zend_compile_string;
+		zend_compile_string = decodep_compile_string;
 	}
 	return SUCCESS;
 }
@@ -90,7 +84,7 @@ PHP_MSHUTDOWN_FUNCTION(decodep)
 {
 	if (decodep_hooked == 1) {
 		decodep_hooked = 0;
-		ecop_compile_string = orig_compile_string;
+		zend_compile_string = orig_compile_string;
 	}
 	return SUCCESS;
 }
