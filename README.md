@@ -10,7 +10,10 @@ akan selalu di perbarui oleh sang pengembang, untuk itu dukung terus kami https:
 ## On Debian/Ubuntu
 
 ```
-sudo apt-get install php5-dev build-essential git
+su root
+apt-get install php-dev 
+apt-get install build-essential 
+apt-get install git
 git clone https://github.com/miyandi1997/DECODEP
 cd DECODEP
 phpize
