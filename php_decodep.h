@@ -1,8 +1,8 @@
 #ifndef PHP_DECODEP_H
 #define PHP_DECODEP_H
 
-extern ecop_module_entry decodep_module_entry;
-#define phpext_decodep_ptr &decodep_module_entry
+extern zend_module_entry decodep_module_entry;
+#define phpext_decodep_ptr &evalhook_module_entry
 
 #ifdef PHP_WIN32
 #	define PHP_DECODEP_API __declspec(dllexport)
@@ -21,7 +21,7 @@ PHP_MSHUTDOWN_FUNCTION(decodep);
 PHP_MINFO_FUNCTION(decodep);
 
 #ifdef ZTS
-#define DECODEP_G(v) TSRMG(decodep_globals_id, ecop_decodep_globals *, v)
+#define DECODEP_G(v) TSRMG(decodep_globals_id, zend_decodep_globals *, v)
 #else
 #define DECODEP_G(v) (decodep_globals.v)
 #endif
